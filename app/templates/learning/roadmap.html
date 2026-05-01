@@ -1,0 +1,11 @@
+{% extends 'base.html' %} {% block title %}Roadmap{% endblock %} {% block
+content %}
+<h2>{{ roadmap.title }}</h2>
+<ul>
+  {% for t in roadmap.tasks %}
+  <li>{{ t.title }}</li>
+  {% else %}
+  <li>No tasks yet.</li>
+  {% endfor %}
+</ul>
+{% endblock %}
