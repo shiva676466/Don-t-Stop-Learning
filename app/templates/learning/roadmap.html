@@ -1,11 +1,23 @@
-{% extends 'base.html' %} {% block title %}Roadmap{% endblock %} {% block
-content %}
-<h2>{{ roadmap.title }}</h2>
-<ul>
-  {% for t in roadmap.tasks %}
-  <li>{{ t.title }}</li>
-  {% else %}
-  <li>No tasks yet.</li>
-  {% endfor %}
-</ul>
+<!-- templates/learning/roadmap.html -->
+{% extends "base.html" %}
+{% block content %}
+<h2>{{ roadmap.skill }} Roadmap</h2>
+<p><strong>Level:</strong> {{ roadmap.level }} | <strong>Time:</strong> {{ roadmap.time_per_day }} | <strong>Goal:</strong> {{ roadmap.goal }}</p>
+
+<div class="list-group mt-4">
+    {% for task in tasks %}
+        <div class="list-group-item d-flex justify-content-between align-items-center task-item" id="task-{{ task.id }}">
+            <div>
+                <input type="checkbox" class="form-check-input me-2 task-checkbox" 
+                       data-task-id="{{ task.id }}" {% if task.is_completed %}checked{% endif %}>
+                <strong>{{ task.title }}</strong>
+                <span class="badge bg-secondary ms-2">{{ task.due_date }}</span>
+                <p class="mb-0 text-muted small">{{ task.description }}</p>
+            </div>
+        </div>
+    {% else %}
+        <p>No tasks found. Something went wrong.</p>
+    {% endfor %}
+</div>
+<a href="{{ url_for('main.dashboard') }}" class="btn btn-outline-secondary mt-3">Back to Dashboard</a>
 {% endblock %}

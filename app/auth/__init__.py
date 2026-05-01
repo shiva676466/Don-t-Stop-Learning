@@ -1,5 +1,2 @@
-from flask import Blueprint
-
-auth = Blueprint('auth', __name__, url_prefix='/auth', template_folder='templates')
-
-from . import routes
+# app/auth/__init__.py
+# (empty file – just makes it a package)

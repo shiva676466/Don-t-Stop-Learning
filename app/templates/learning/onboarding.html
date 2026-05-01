@@ -1,5 +1,39 @@
-{% extends 'base.html' %} {% block title %}Onboarding{% endblock %} {% block
-content %}
-<h2>Onboarding</h2>
-<p>Tell us about your goals to generate a roadmap.</p>
+<!-- templates/learning/onboarding.html -->
+{% extends "base.html" %}
+{% block content %}
+<h2>Create Your Learning Path</h2>
+<form method="POST" class="mt-4">
+    <div class="mb-3">
+        <label for="skill" class="form-label">What do you want to learn?</label>
+        <select name="skill" id="skill" class="form-select" required>
+            <option value="">-- Select a skill --</option>
+            <option value="DSA">DSA (Data Structures & Algorithms)</option>
+            <option value="Web Development">Web Development</option>
+        </select>
+    </div>
+    <div class="mb-3">
+        <label for="level" class="form-label">Your current level</label>
+        <select name="level" id="level" class="form-select" required>
+            <option value="">-- Select level --</option>
+            <option value="beginner">Beginner</option>
+            <option value="intermediate">Intermediate</option>
+            <option value="advanced">Advanced</option>
+        </select>
+    </div>
+    <div class="mb-3">
+        <label for="goal" class="form-label">Your goal</label>
+        <textarea name="goal" id="goal" class="form-control" rows="2" placeholder="e.g., Crack technical interviews, Build a portfolio site" required></textarea>
+    </div>
+    <div class="mb-3">
+        <label for="time_per_day" class="form-label">How much time can you dedicate daily?</label>
+        <select name="time_per_day" id="time_per_day" class="form-select" required>
+            <option value="">-- Select time --</option>
+            <option value="30 minutes">30 minutes</option>
+            <option value="1 hour">1 hour</option>
+            <option value="2 hours">2 hours</option>
+            <option value="3 hours">3 hours</option>
+        </select>
+    </div>
+    <button type="submit" class="btn btn-primary">Generate My Roadmap</button>
+</form>
 {% endblock %}

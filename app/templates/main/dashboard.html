@@ -1,5 +1,29 @@
-{% extends 'base.html' %} {% block title %}Dashboard{% endblock %} {% block
-content %}
-<h2>Dashboard</h2>
-<p>Your roadmaps will appear here.</p>
+<!-- templates/main/dashboard.html -->
+{% extends "base.html" %}
+{% block content %}
+<h2>Your Dashboard</h2>
+{% if roadmaps %}
+    <div class="row mt-4">
+        {% for roadmap in roadmaps %}
+            <div class="col-md-6 col-lg-4 mb-4">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ roadmap.skill }}</h5>
+                        <p class="card-text">
+                            <strong>Level:</strong> {{ roadmap.level }}<br>
+                            <strong>Daily time:</strong> {{ roadmap.time_per_day }}<br>
+                            <strong>Goal:</strong> {{ roadmap.goal }}
+                        </p>
+                        <a href="{{ url_for('learning.view_roadmap', roadmap_id=roadmap.id) }}" class="btn btn-primary">View Roadmap</a>
+                    </div>
+                    <div class="card-footer text-muted">
+                        Created {{ roadmap.created_at.strftime('%Y-%m-%d') }}
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+{% else %}
+    <p>You don't have any learning paths yet. <a href="{{ url_for('learning.onboarding') }}">Create one now!</a></p>
+{% endif %}
 {% endblock %}

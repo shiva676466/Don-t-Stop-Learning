@@ -1,5 +1,14 @@
-{% extends 'base.html' %} {% block title %}Home{% endblock %} {% block content
-%}
-<h2>Welcome</h2>
-<p>This is a starter app for Don't Stop Learning.</p>
+<!-- templates/main/index.html -->
+{% extends "base.html" %}
+{% block content %}
+<div class="text-center py-5">
+    <h1 class="display-4">Don't Stop Learning</h1>
+    <p class="lead">Your smart, personalized learning path generator.</p>
+    {% if not current_user.is_authenticated %}
+        <a href="{{ url_for('auth.register') }}" class="btn btn-primary btn-lg me-2">Get Started</a>
+        <a href="{{ url_for('auth.login') }}" class="btn btn-outline-secondary btn-lg">Login</a>
+    {% else %}
+        <a href="{{ url_for('learning.onboarding') }}" class="btn btn-success btn-lg">Create New Learning Path</a>
+    {% endif %}
+</div>
 {% endblock %}
