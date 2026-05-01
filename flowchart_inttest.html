@@ -1,13 +1,57 @@
-{% extends 'base.html' %} {% block content %}
-<div class="d-flex justify-content-between align-items-center mb-3">
-    <h2 class="mb-0">{{ roadmap.skill }} Flowchart</h2>
-    <a href="{{ url_for('learning.view_roadmap', roadmap_id=roadmap.id) }}" class="btn btn-outline-secondary btn-sm">Back</a>
-</div>
+<!-- templates/base.html -->
+<!DOCTYPE html>
+<html lang="en">
 
-<div class="d-flex gap-2 mb-3">
-    <button type="button" id="zoom-in" class="btn btn-outline-primary btn-sm">Zoom In</button>
-    <button type="button" id="zoom-out" class="btn btn-outline-primary btn-sm">Zoom Out</button>
-    <button type="button" id="zoom-reset" class="btn btn-outline-secondary btn-sm">Reset</button>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Don't Stop Learning - Home</title>
+    <!-- Google Fonts -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&family=Nunito:wght@600;700&display=swap"
+        rel="stylesheet">
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+    <link rel="stylesheet" href="/static/css/style.css">
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark"
+        style="background: linear-gradient(90deg,#0d6efd 0%, #6f42c1 100%);">
+        <div class="container">
+            <a class="navbar-brand d-flex align-items-center" href="/">
+                <img src="/static/img/logo.svg" alt="Don't Stop Learning"
+                    class="brand-logo me-2">
+                <span class="brand-text">Don't Stop Learning</span>
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    
+                    <li class="nav-item"><a class="nav-link" href="/dashboard">Dashboard</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/onboarding">New Path</a>
+                    </li>
+                    <li class="nav-item"><a class="nav-link" href="/logout">Logout</a></li>
+                    
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <main class="container mt-4">
+        
+        
+        
+
+        
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h2 class="mb-0">Machine Learning Flowchart</h2>
+    <a href="/roadmap/5"
+        class="btn btn-outline-secondary btn-sm">Back</a>
 </div>
 
 <div class="card shadow-sm">
@@ -24,7 +68,24 @@
             </button>
         </div>
 
-        <div id="mermaid-wrap" class="mermaid">{{ mermaid | safe }}</div>
+        <div id="mermaid-wrap" class="mermaid">flowchart TB
+	classDef week fill:#f8f9ff,stroke:#e9ecef;
+
+	subgraph Week_1
+		n1["Linear Algebra"]
+		n2["Probability"]
+		n3["Data Processing"]
+		n4["Supervised Learning"]
+		n5["Model Evaluation"]
+		n6["Neural Networks"]
+	end
+	n1 --> n2
+	n2 --> n3
+	n3 --> n4
+	n4 --> n5
+	n5 --> n6
+	n1 --> n3
+	n2 --> n5</div>
     </div>
 </div>
 
@@ -105,4 +166,11 @@
         attemptInit();
     });
 </script>
-{% endblock %}
+
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="/static/js/main.js"></script>
+</body>
+
+</html>

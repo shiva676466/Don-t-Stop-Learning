@@ -14,7 +14,7 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
 
-<body data-theme="light">
+<body>
     <nav class="navbar navbar-expand-lg navbar-dark app-navbar sticky-top">
         <div class="container">
             <a class="navbar-brand d-flex align-items-center" href="{{ url_for('main.index') }}">
@@ -26,11 +26,6 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto align-items-lg-center gap-lg-2">
-                    <li class="nav-item">
-                        <button id="theme-toggle" class="btn btn-sm btn-outline-light nav-theme-btn" type="button" aria-label="Toggle dark mode">
-                            <i class="bi bi-moon-stars" id="theme-toggle-icon"></i>
-                        </button>
-                    </li>
                     {% if current_user.is_authenticated %}
                     <li class="nav-item"><a class="nav-link" href="{{ url_for('main.dashboard') }}">Dashboard</a></li>
                     <li class="nav-item"><a class="nav-link" href="{{ url_for('learning.onboarding') }}">New Path</a></li>
