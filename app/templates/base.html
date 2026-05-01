@@ -18,7 +18,11 @@
     <nav class="navbar navbar-expand-lg navbar-dark app-navbar sticky-top">
         <div class="container">
             <a class="navbar-brand d-flex align-items-center" href="{{ url_for('main.index') }}">
-                <img src="{{ url_for('static', filename='img/logo.svg') }}" alt="Don't Stop Learning" class="brand-logo me-2">
+                <picture>
+                    <source srcset="{{ url_for('static', filename='img/logo.png') }}" type="image/png">
+                    <img src="{{ url_for('static', filename='img/logo.svg') }}" alt="Don't Stop Learning"
+                        class="brand-logo me-2">
+                </picture>
                 <span class="brand-text">Don't Stop Learning</span>
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
@@ -28,14 +32,17 @@
                 <ul class="navbar-nav ms-auto align-items-lg-center gap-lg-2">
                     {% if current_user.is_authenticated %}
                     <li class="nav-item"><a class="nav-link" href="{{ url_for('main.dashboard') }}">Dashboard</a></li>
-                    <li class="nav-item"><a class="nav-link" href="{{ url_for('learning.onboarding') }}">New Path</a></li>
-                    <li class="nav-item"><a class="nav-link nav-pill" href="{{ url_for('auth.logout') }}">Logout</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{ url_for('learning.onboarding') }}">New Path</a>
+                    </li>
+                    <li class="nav-item"><a class="nav-link nav-pill" href="{{ url_for('auth.logout') }}">Logout</a>
+                    </li>
                     {% else %}
                     <li class="nav-item"><a class="nav-link" href="{{ url_for('auth.login') }}">Login</a></li>
-                    <li class="nav-item"><a class="nav-link nav-pill" href="{{ url_for('auth.register') }}">Register</a></li>
+                    <li class="nav-item"><a class="nav-link nav-pill" href="{{ url_for('auth.register') }}">Register</a>
+                    </li>
                     {% endif %}
                 </ul>
-                
+
             </div>
         </div>
     </nav>
