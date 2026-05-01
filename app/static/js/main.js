@@ -1,6 +1,28 @@
-// static/js/main.js
 document.addEventListener('DOMContentLoaded', function() {
-    // Toggle task completion via AJAX
+    const body = document.body;
+    const themeToggle = document.getElementById('theme-toggle');
+    const themeToggleIcon = document.getElementById('theme-toggle-icon');
+
+    const applyTheme = (theme) => {
+        body.setAttribute('data-theme', theme);
+        if (themeToggleIcon) {
+            themeToggleIcon.className = theme === 'dark' ? 'bi bi-sun' : 'bi bi-moon-stars';
+        }
+    };
+
+    const savedTheme = localStorage.getItem('theme') || 'light';
+    applyTheme(savedTheme);
+
+    if (themeToggle) {
+        themeToggle.addEventListener('click', function () {
+            const nextTheme = body.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+            localStorage.setItem('theme', nextTheme);
+            applyTheme(nextTheme);
+        });
+    }
+});
+
+document.addEventListener('DOMContentLoaded', function() {
     document.querySelectorAll('.task-checkbox').forEach(checkbox => {
         checkbox.addEventListener('change', function() {
             const taskId = this.dataset.taskId;
@@ -13,19 +35,12 @@ document.addEventListener('DOMContentLoaded', function() {
             .then(response => response.json())
             .then(data => {
                 if (data.success) {
-                    // Optional: update visual feedback
                     const taskDiv = document.getElementById(`task-${taskId}`);
                     if (taskDiv) {
-                        const title = taskDiv.querySelector('strong');
-                        if (data.is_completed) {
-                            title.style.textDecoration = 'line-through';
-                        } else {
-                            title.style.textDecoration = 'none';
-                        }
+                        taskDiv.classList.toggle('completed', data.is_completed);
                     }
                 } else {
                     alert('Error toggling task.');
-                    // Revert checkbox state if needed
                     this.checked = !this.checked;
                 }
             })
