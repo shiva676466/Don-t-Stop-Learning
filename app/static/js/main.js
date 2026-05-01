@@ -1,6 +1,4 @@
-// static/js/main.js
 document.addEventListener('DOMContentLoaded', function() {
-    // Toggle task completion via AJAX
     document.querySelectorAll('.task-checkbox').forEach(checkbox => {
         checkbox.addEventListener('change', function() {
             const taskId = this.dataset.taskId;
@@ -13,19 +11,12 @@ document.addEventListener('DOMContentLoaded', function() {
             .then(response => response.json())
             .then(data => {
                 if (data.success) {
-                    // Optional: update visual feedback
                     const taskDiv = document.getElementById(`task-${taskId}`);
                     if (taskDiv) {
-                        const title = taskDiv.querySelector('strong');
-                        if (data.is_completed) {
-                            title.style.textDecoration = 'line-through';
-                        } else {
-                            title.style.textDecoration = 'none';
-                        }
+                        taskDiv.classList.toggle('completed', data.is_completed);
                     }
                 } else {
                     alert('Error toggling task.');
-                    // Revert checkbox state if needed
                     this.checked = !this.checked;
                 }
             })

@@ -2,18 +2,63 @@
 {% block content %}
 <div class="d-flex justify-content-between align-items-center mb-3">
     <h2 class="mb-0">{{ roadmap.skill }} Flowchart</h2>
-    <a href="{{ url_for('learning.view_roadmap', roadmap_id=roadmap.id) }}"
-        class="btn btn-outline-secondary btn-sm">Back</a>
+    <a href="{{ url_for('learning.view_roadmap', roadmap_id=roadmap.id) }}" class="btn btn-outline-secondary btn-sm">Back</a>
+</div>
+
+<div class="d-flex gap-2 mb-3">
+    <button type="button" id="zoom-in" class="btn btn-outline-primary btn-sm">Zoom In</button>
+    <button type="button" id="zoom-out" class="btn btn-outline-primary btn-sm">Zoom Out</button>
+    <button type="button" id="zoom-reset" class="btn btn-outline-secondary btn-sm">Reset</button>
 </div>
 
 <div class="card shadow-sm">
     <div class="card-body">
-        <div class="mermaid">
-            {{ mermaid | safe }}
+        <div id="flowchart-canvas" style="overflow:auto;">
+            <div class="mermaid" id="mermaid-graph">
+                {{ mermaid | safe }}
+            </div>
         </div>
     </div>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
-<script>mermaid.initialize({ startOnLoad: true });</script>
+<script>
+    mermaid.initialize({ startOnLoad: true });
+
+    document.addEventListener('DOMContentLoaded', function () {
+        const container = document.getElementById('flowchart-canvas');
+        const zoomInBtn = document.getElementById('zoom-in');
+        const zoomOutBtn = document.getElementById('zoom-out');
+        const resetBtn = document.getElementById('zoom-reset');
+
+        let scale = 1;
+        const MIN_SCALE = 0.5;
+        const MAX_SCALE = 2.5;
+        const STEP = 0.1;
+
+        const applyZoom = () => {
+            const svg = container.querySelector('svg');
+            if (!svg) return;
+            svg.style.transformOrigin = 'top left';
+            svg.style.transform = `scale(${scale})`;
+        };
+
+        const changeZoom = (delta) => {
+            scale = Math.min(MAX_SCALE, Math.max(MIN_SCALE, Number((scale + delta).toFixed(2))));
+            applyZoom();
+        };
+
+        zoomInBtn.addEventListener('click', () => changeZoom(STEP));
+        zoomOutBtn.addEventListener('click', () => changeZoom(-STEP));
+        resetBtn.addEventListener('click', () => {
+            scale = 1;
+            applyZoom();
+        });
+
+        const observer = new MutationObserver(() => applyZoom());
+        observer.observe(container, { childList: true, subtree: true });
+
+        setTimeout(applyZoom, 150);
+    });
+</script>
 {% endblock %}
