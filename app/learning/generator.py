@@ -109,6 +109,7 @@ def generate_roadmap_tasks(skill: str, level: str, time_per_day: str) -> List[Di
         tasks.append(
             {
                 "id": i,
+                "order": i - 1,
                 "title": title,
                 "description": f"Learn {title}",
                 "due_date": f"Week {((i - 1) // 3) + 1}",
