@@ -1,17 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- A simple aesthetic SVG logo: open book with rising arrow to symbolize continuous learning -->
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64" aria-hidden="true">
+<!-- Creative variant 2: "Paper Plane + Book" - playful, forward motion -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 96 96" width="96" height="96" aria-hidden="true">
   <defs>
-    <linearGradient id="g1" x1="0" x2="1" y1="0" y2="1">
-      <stop offset="0%" stop-color="#0d6efd"/>
-      <stop offset="100%" stop-color="#6f42c1"/>
+    <linearGradient id="c2" x1="0" x2="1" y1="0" y2="1">
+      <stop offset="0%" stop-color="#3b82f6"/>
+      <stop offset="100%" stop-color="#8b5cf6"/>
     </linearGradient>
   </defs>
-  <g fill="none" fill-rule="evenodd">
-    <path d="M6 20c6-4 14-6 22-6s16 2 22 6v24c-6-4-14-6-22-6S12 40 6 44V20z" fill="#fff" stroke="url(#g1)" stroke-width="2"/>
-    <path d="M6 20c6-4 14-6 22-6s16 2 22 6" stroke="url(#g1)" stroke-width="1.6" opacity="0.4"/>
-    <path d="M18 28c4-2 8-3 12-3s8 1 12 3" stroke="#0d6efd" stroke-width="1.8" stroke-linecap="round"/>
-    <path d="M33 22l6-6 6 6" stroke="url(#g1)" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
-    <circle cx="33" cy="22" r="1.6" fill="url(#g1)"/>
-  </g>
+  <rect width="96" height="96" rx="18" fill="#fff"/>
+  <!-- open book (bottom left) -->
+  <path d="M12 56c10-6 22-8 32-8s22 2 32 8v16c-10-6-22-8-32-8s-22 2-32 8V56z" fill="#f1f5f9" stroke="#e2e8f0"/>
+  <!-- paper plane flying up-right -->
+  <path d="M36 36l30-12-18 22-12-10z" fill="url(#c2)" stroke="#2b6ef6" stroke-width="1"/>
+  <path d="M34 38l10 6" stroke="#fff" stroke-width="1.5" stroke-linecap="round"/>
 </svg>
