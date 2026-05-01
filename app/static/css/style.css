@@ -34,7 +34,7 @@ body {
 
 .brand-text {
   font-family:
-    "Poppins",
+    "Nunito",
     "Inter",
     system-ui,
     -apple-system,
@@ -42,9 +42,9 @@ body {
     Roboto,
     "Helvetica Neue",
     Arial;
-  font-weight: 600;
+  font-weight: 700;
   font-size: 1.05rem;
-  letter-spacing: 0.4px;
+  letter-spacing: 0.3px;
   color: #fff;
 }
 

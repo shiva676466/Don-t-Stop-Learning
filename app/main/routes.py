@@ -13,3 +13,9 @@ def index():
 def dashboard():
     roadmaps = current_user.roadmaps
     return render_template('main/dashboard.html', roadmaps=roadmaps)
+
+
+@main.route('/branding-preview')
+def branding_preview():
+    """A small page to preview alternative brand fonts and styles."""
+    return render_template('main/branding_preview.html')
