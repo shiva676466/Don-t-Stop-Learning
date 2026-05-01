@@ -1,113 +1,177 @@
-# app/learning/generator.py
+"""Generator utilities for learning roadmaps and flowcharts."""
+from typing import List, Dict
 
-TEMPLATES = {
-    'DSA': {
-        'beginner': [
-            ('Arrays – Basics', 'Learn indexing, traversing, insertion, deletion. Solve 2 easy problems.'),
-            ('Arrays – Two Pointers', 'Understand two‑pointer technique. Solve 1 problem.'),
-            ('Strings – Basics', 'String operations, reversing, palindrome check. Solve 2 easy problems.'),
-            ('Linked Lists – Introduction', 'Singly linked list creation, traversal, insertion. Solve 1 problem.'),
-            ('Stacks & Queues', 'Stack operations, queue operations, applications. Solve 1 problem.'),
-            ('Recursion – Fundamentals', 'Factorial, Fibonacci, tree recursion. Solve 2 easy problems.'),
-            ('Sorting – Basic Algorithms', 'Bubble, Selection, Insertion sort. Implement them.'),
-            ('Searching – Linear & Binary', 'Understand binary search. Solve 1 problem.'),
-        ],
-        'intermediate': [
-            ('Trees – Binary Trees', 'Traversal (pre, in, post), height, diameter. Solve 2 problems.'),
-            ('Binary Search Trees', 'Insert, delete, search, validate BST. Solve 1 problem.'),
-            ('Graphs – BFS & DFS', 'Graph representation, BFS, DFS. Solve 1 problem.'),
-            ('Dynamic Programming – Introduction', 'Fibonacci, coin change, knapsack. Solve 2 problems.'),
-            ('Hashing', 'Hash maps, sets, collision handling. Solve 1 problem.'),
-            ('Heaps & Priority Queues', 'Min heap, max heap, heap sort. Solve 1 problem.'),
-            ('Greedy Algorithms', 'Activity selection, fractional knapsack. Solve 1 problem.'),
-        ],
-        'advanced': [
-            ('Advanced Graphs', 'Dijkstra, Bellman Ford, Floyd Warshall. Solve 1 problem.'),
-            ('Tries', 'Insert, search, auto‑complete. Solve 1 problem.'),
-            ('Segment Trees', 'Build, query, update. Solve 1 problem.'),
-            ('Advanced DP', 'Edit distance, matrix chain multiplication. Solve 1 problem.'),
-            ('Backtracking', 'N‑Queens, Sudoku solver. Solve 1 problem.'),
-            ('Bit Manipulation', 'Tricks, power set, subset sums. Solve 1 problem.'),
-            ('System Design Basics', 'Load balancing, caching, microservices.'),
-        ]
-    },
-    'Web Development': {
-        'beginner': [
-            ('HTML Basics', 'Tags, forms, semantic HTML. Build a personal page.'),
-            ('CSS Basics', 'Selectors, box model, flexbox. Style your HTML page.'),
-            ('JavaScript Basics', 'Variables, loops, functions, DOM manipulation. Add interactivity.'),
-            ('Responsive Design', 'Media queries, mobile‑first design. Make your page responsive.'),
-            ('Git & GitHub', 'Init, commit, push, pull. Put your project on GitHub.'),
-            ('Bootstrap or Tailwind', 'Use a CSS framework to redesign your page quickly.'),
-            ('Basic Terminal', 'Command line basics, file navigation.'),
-            ('Mini Project', 'Build a simple landing page from scratch.'),
-        ],
-        'intermediate': [
-            ('Advanced JavaScript', 'ES6, promises, async/await, modules.'),
-            ('Frontend Framework (React)', 'Components, state, props, hooks. Build a to‑do app.'),
-            ('Backend Basics (Node.js or Flask)', 'Routes, requests, responses. Create a simple API.'),
-            ('Databases (SQL)', 'Tables, CRUD, joins. Connect your app to a database.'),
-            ('REST APIs', 'Design and build a full REST API for your project.'),
-            ('Authentication', 'JWT, sessions, OAuth basics. Add login to your app.'),
-            ('Deployment', 'Deploy a full‑stack app to Render / Vercel.'),
-        ],
-        'advanced': [
-            ('State Management (Redux)', 'Store, actions, reducers. Integrate into React app.'),
-            ('Testing (Unit & Integration)', 'Jest, React Testing Library. Write tests.'),
-            ('CI/CD', 'GitHub Actions, automated deployment.'),
-            ('WebSockets', 'Real‑time chat app.'),
-            ('Performance Optimization', 'Lazy loading, code splitting, memoization.'),
-            ('Security', 'XSS, CSRF, SQL injection, security headers.'),
-            ('System Design', 'Scalable architecture, caching, database sharding.'),
-        ]
-    }
+
+SKILLS = {
+    'DSA': ['Arrays', 'Strings', 'Linked Lists', 'Stacks & Queues', 'Trees', 'Graphs', 'Hashing', 'Sorting', 'Searching'],
+    'Web Development': ['HTML & CSS', 'JavaScript', 'DOM', 'HTTP & REST', 'Frontend Framework', 'Backend Basics', 'Databases', 'Deployment'],
+    'Machine Learning': ['Linear Algebra', 'Probability', 'Data Processing', 'Supervised Learning', 'Model Evaluation', 'Neural Networks'],
+    'DevOps': ['Linux Basics', 'Shell Scripting', 'CI/CD', 'Containers', 'IaC', 'Monitoring & Logging'],
+    'Cloud': ['Cloud Concepts', 'Compute', 'Storage', 'Networking', 'Security', 'IaC', 'Monitoring'],
+    'Mobile': ['Mobile Basics', 'Layouts & UI', 'Networking', 'Storage', 'Optimization', 'Publishing']
 }
 
-def generate_roadmap_tasks(skill, level, time_per_day):
-    """
-    Returns a list of dicts with 'title', 'description', 'order', 'due_date'.
-    Adjusts number of tasks per week based on time_per_day.
-    """
-    skill = skill.strip()
-    level = level.lower()
-    time_str = time_per_day.lower()   # e.g. '1 hour', '30 minutes', '2 hours'
 
-    # Extract numeric hours for rough adjustment
-    try:
-        words = time_str.split()
-        if 'hour' in words:
-            hours = float(words[0])
-        elif 'min' in words:
-            hours = float(words[0]) / 60
-        else:
-            hours = 1.0
-    except:
-        hours = 1.0
-
-    # Base task list from template
-    base_tasks = TEMPLATES.get(skill, {}).get(level, [])
-    if not base_tasks:
-        base_tasks = [('Start Learning', 'Explore resources and set up your environment.')]
-
-    # Spacing: one task per day? For simplicity, we assign one task per day,
-    # but if hours per day is small (< 0.5h), we might only assign 3-4 tasks per week.
-    # For MVP, just return all tasks in order, with due_date "Week X, Day Y".
+def generate_roadmap_tasks(skill: str, level: str, time_per_day: str) -> List[Dict]:
+    topics = SKILLS.get(skill, ['Intro', 'Core', 'Advanced'])
     tasks = []
-    day_counter = 0
-    for idx, (title, desc) in enumerate(base_tasks):
-        week = day_counter // 7 + 1
-        day = day_counter % 7 + 1
-        due = f"Week {week}, Day {day}"
+    for i, t in enumerate(topics, start=1):
         tasks.append({
-            'title': title,
-            'description': desc,
-            'order': idx,
-            'due_date': due
+            'id': i,
+            'title': t,
+            'description': f'Learn {t}',
+            'due_date': f'Week {((i-1)//3)+1}',
+            'is_completed': False,
         })
-        # If time is limited, add extra day between tasks (skip a day)
-        if hours < 0.5:
-            day_counter += 2   # one task every two days
-        else:
-            day_counter += 1
+    return tasks
+
+"""Generator utilities for learning roadmaps and Mermaid flowcharts.
+
+This file provides a small, deterministic generator used by the
+learning blueprint. It is intentionally lightweight so it can be
+replaced later with a more sophisticated planner or model-driven
+generator.
+"""
+
+from typing import List, Dict
+
+
+SKILLS: Dict[str, List[str]] = {
+    "DSA": [
+        "Arrays",
+        "Strings",
+        "Linked Lists",
+        "Stacks & Queues",
+        "Trees",
+        "Graphs",
+        "Hashing",
+        "Sorting",
+        "Searching",
+    ],
+    "Web Development": [
+        "HTML & CSS",
+        "JavaScript",
+        "DOM",
+        "HTTP & REST",
+        "Frontend Framework",
+        "Backend Basics",
+        "Databases",
+        "Deployment",
+    ],
+    "Machine Learning": [
+        "Linear Algebra",
+        "Probability",
+        "Data Processing",
+        "Supervised Learning",
+        "Model Evaluation",
+        "Neural Networks",
+    ],
+    "DevOps": [
+        "Linux Basics",
+        "Shell Scripting",
+        "CI/CD",
+        "Containers",
+        "Infrastructure as Code",
+        "Monitoring & Logging",
+    ],
+    "Cloud": [
+        "Cloud Concepts",
+        "Compute",
+        "Storage",
+        "Networking",
+        "Security",
+        "IaC",
+        "Monitoring",
+    ],
+    "Mobile": [
+        "Mobile Basics",
+        "Layouts & UI",
+        "Networking",
+        "Storage",
+        "Optimization",
+        "Publishing",
+    ],
+}
+
+
+def generate_roadmap_tasks(skill: str, level: str, time_per_day: str) -> List[Dict]:
+    """Produce a list of task dictionaries for a simple roadmap.
+
+    Each task contains: id (int), title (str), description (str),
+    due_date (str) and is_completed (bool).
+
+    This is deterministic and safe for unit testing.
+    """
+
+    topics = SKILLS.get(skill, ["Intro", "Core", "Advanced"])[:]
+    tasks: List[Dict] = []
+    for i, title in enumerate(topics, start=1):
+        tasks.append(
+            {
+                "id": i,
+                "title": title,
+                "description": f"Learn {title}",
+                "due_date": f"Week {((i - 1) // 3) + 1}",
+                "is_completed": False,
+            }
+        )
 
     return tasks
+
+
+def mermaid_from_tasks(tasks: List[Dict]) -> str:
+    """Convert a list of task dicts into a Mermaid flowchart string.
+
+    The generated graph is a simple top-to-bottom chain with optional
+    cross-links for readability when many nodes exist.
+    """
+
+    if not tasks:
+        return "flowchart TB\nstart((Start))"
+
+    lines: List[str] = ["flowchart TB"]
+
+    # Create nodes
+    for t in tasks:
+        node_id = f"n{int(t['id'])}"
+        # remove quotes to avoid breaking the mermaid literal
+        label = str(t["title"]).replace('"', "'")
+        lines.append(f"{node_id}[\"{label}\"]")
+
+    # Chain edges
+    for i in range(1, len(tasks)):
+        lines.append(f"n{i} --> n{i+1}")
+
+    # Add a couple of helpful cross-links for longer lists
+    if len(tasks) >= 4:
+        lines.append("n1 --> n3")
+        if len(tasks) >= 6:
+            lines.append("n2 --> n5")
+
+    return "\n".join(lines)
+
+
+def generate_roadmap(skill: str, level: str, time_per_day: str, goal: str) -> Dict:
+    """High-level helper returning roadmap data and mermaid text.
+
+    Returns a dict with keys: skill, level, time_per_day, goal, tasks, mermaid
+    """
+
+    tasks = generate_roadmap_tasks(skill, level, time_per_day)
+    mermaid = mermaid_from_tasks(tasks)
+    return {
+        "skill": skill,
+        "level": level,
+        "time_per_day": time_per_day,
+        "goal": goal,
+        "tasks": tasks,
+        "mermaid": mermaid,
+    }
+
+
+__all__ = [
+    "SKILLS",
+    "generate_roadmap_tasks",
+    "mermaid_from_tasks",
+    "generate_roadmap",
+]

@@ -1,29 +1,39 @@
 <!-- templates/main/dashboard.html -->
 {% extends "base.html" %}
 {% block content %}
-<h2>Your Dashboard</h2>
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h2 class="mb-0">Your Dashboard</h2>
+    <a href="{{ url_for('learning.onboarding') }}" class="btn btn-success">New Learning Path</a>
+</div>
 {% if roadmaps %}
-    <div class="row mt-4">
-        {% for roadmap in roadmaps %}
-            <div class="col-md-6 col-lg-4 mb-4">
-                <div class="card h-100">
-                    <div class="card-body">
-                        <h5 class="card-title">{{ roadmap.skill }}</h5>
-                        <p class="card-text">
-                            <strong>Level:</strong> {{ roadmap.level }}<br>
-                            <strong>Daily time:</strong> {{ roadmap.time_per_day }}<br>
-                            <strong>Goal:</strong> {{ roadmap.goal }}
-                        </p>
-                        <a href="{{ url_for('learning.view_roadmap', roadmap_id=roadmap.id) }}" class="btn btn-primary">View Roadmap</a>
+<div class="row g-4">
+    {% for roadmap in roadmaps %}
+    <div class="col-md-6 col-lg-4">
+        <div class="card shadow-sm h-100 border-0">
+            <div class="card-body">
+                <h5 class="card-title">{{ roadmap.skill }}</h5>
+                <p class="text-muted small mb-3">{{ roadmap.goal }}</p>
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <span class="badge bg-primary">Level: {{ roadmap.level }}</span>
+                        <span class="badge bg-secondary ms-2">{{ roadmap.time_per_day }}/day</span>
                     </div>
-                    <div class="card-footer text-muted">
-                        Created {{ roadmap.created_at.strftime('%Y-%m-%d') }}
-                    </div>
+                    <a href="{{ url_for('learning.view_roadmap', roadmap_id=roadmap.id) }}"
+                        class="btn btn-outline-primary btn-sm">Open</a>
                 </div>
             </div>
-        {% endfor %}
+            <div class="card-footer small text-muted">Created {{ roadmap.created_at.strftime('%Y-%m-%d') }}</div>
+        </div>
     </div>
+    {% endfor %}
+</div>
 {% else %}
-    <p>You don't have any learning paths yet. <a href="{{ url_for('learning.onboarding') }}">Create one now!</a></p>
+<div class="card text-center py-5">
+    <div class="card-body">
+        <h5 class="card-title">No learning paths yet</h5>
+        <p class="card-text text-muted">Create a personalized path and start learning consistently.</p>
+        <a href="{{ url_for('learning.onboarding') }}" class="btn btn-primary">Create your first path</a>
+    </div>
+</div>
 {% endif %}
 {% endblock %}

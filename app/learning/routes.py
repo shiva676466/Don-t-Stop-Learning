@@ -3,7 +3,7 @@ from flask import Blueprint, render_template, redirect, url_for, flash, request,
 from flask_login import login_required, current_user
 from app import db
 from app.models import Roadmap, Task
-from app.learning.generator import generate_roadmap_tasks
+from app.learning.generator import generate_roadmap_tasks, generate_roadmap, mermaid_from_tasks
 
 learning = Blueprint('learning', __name__)
 
@@ -55,6 +55,22 @@ def view_roadmap(roadmap_id):
         return redirect(url_for('main.dashboard'))
     tasks = Task.query.filter_by(roadmap_id=roadmap.id).order_by(Task.order).all()
     return render_template('learning/roadmap.html', roadmap=roadmap, tasks=tasks)
+
+
+@learning.route('/roadmap/<int:roadmap_id>/flowchart')
+@login_required
+def roadmap_flowchart(roadmap_id):
+    roadmap = Roadmap.query.get_or_404(roadmap_id)
+    if roadmap.user_id != current_user.id:
+        flash('Access denied.', 'danger')
+        return redirect(url_for('main.dashboard'))
+    tasks = Task.query.filter_by(roadmap_id=roadmap.id).order_by(Task.order).all()
+    # Build mermaid string from tasks
+    mermaid = mermaid_from_tasks([{
+        'id': t.id,
+        'title': t.title,
+    } for t in tasks])
+    return render_template('learning/flowchart.html', roadmap=roadmap, mermaid=mermaid)
 
 @learning.route('/task/<int:task_id>/toggle', methods=['POST'])
 @login_required

@@ -1,14 +1,37 @@
 <!-- templates/main/index.html -->
 {% extends "base.html" %}
 {% block content %}
-<div class="text-center py-5">
-    <h1 class="display-4">Don't Stop Learning</h1>
-    <p class="lead">Your smart, personalized learning path generator.</p>
-    {% if not current_user.is_authenticated %}
-        <a href="{{ url_for('auth.register') }}" class="btn btn-primary btn-lg me-2">Get Started</a>
-        <a href="{{ url_for('auth.login') }}" class="btn btn-outline-secondary btn-lg">Login</a>
-    {% else %}
-        <a href="{{ url_for('learning.onboarding') }}" class="btn btn-success btn-lg">Create New Learning Path</a>
-    {% endif %}
-</div>
+<section class="py-5 text-center">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-7 text-lg-start">
+                <h1 class="display-5 fw-bold">Don't Stop Learning</h1>
+                <p class="lead text-muted">Smart, beautiful learning paths tailored to your goals and schedule.</p>
+                <div class="mt-4">
+                    {% if not current_user.is_authenticated %}
+                    <a href="{{ url_for('auth.register') }}" class="btn btn-lg btn-primary me-2 shadow">Get Started</a>
+                    <a href="{{ url_for('auth.login') }}" class="btn btn-lg btn-outline-light">Login</a>
+                    {% else %}
+                    <a href="{{ url_for('learning.onboarding') }}" class="btn btn-lg btn-success">Create New Learning
+                        Path</a>
+                    {% endif %}
+                </div>
+            </div>
+            <div class="col-lg-5 mt-4 mt-lg-0">
+                <div class="card shadow-sm">
+                    <div class="card-body p-4">
+                        <h5 class="card-title">How it works</h5>
+                        <p class="card-text text-muted small">Answer a few questions and we generate a step-by-step
+                            roadmap you can follow each day.</p>
+                        <ul class="list-unstyled small mb-0">
+                            <li><i class="bi bi-check2-circle text-success me-2"></i> Personalized daily plan</li>
+                            <li><i class="bi bi-check2-circle text-success me-2"></i> Track progress</li>
+                            <li><i class="bi bi-check2-circle text-success me-2"></i> Built for consistency</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
 {% endblock %}

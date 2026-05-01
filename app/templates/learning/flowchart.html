@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h2 class="mb-0">{{ roadmap.skill }} Flowchart</h2>
+    <a href="{{ url_for('learning.view_roadmap', roadmap_id=roadmap.id) }}"
+        class="btn btn-outline-secondary btn-sm">Back</a>
+</div>
+
+<div class="card shadow-sm">
+    <div class="card-body">
+        <div class="mermaid">
+            {{ mermaid | safe }}
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+<script>mermaid.initialize({ startOnLoad: true });</script>
+{% endblock %}
