@@ -1,34 +1,36 @@
 <!-- templates/main/dashboard.html -->
 {% extends "base.html" %}
 {% block content %}
-<div class="d-flex justify-content-between align-items-center mb-3">
-    <h2 class="mb-0">Your Dashboard</h2>
-    <a href="{{ url_for('learning.onboarding') }}" class="btn btn-success">New Learning Path</a>
+<div class="d-flex flex-wrap justify-content-between align-items-center mb-4 gap-3">
+    <div>
+        <h2 class="section-title mb-1">Your Dashboard</h2>
+        <p class="text-muted mb-0">Track progress and continue your learning streak.</p>
+    </div>
+    <a href="{{ url_for('learning.onboarding') }}" class="btn btn-primary"><i class="bi bi-plus-lg me-1"></i> New Learning Path</a>
 </div>
 {% if roadmaps %}
 <div class="row g-4">
     {% for roadmap in roadmaps %}
     <div class="col-md-6 col-lg-4">
-        <div class="card shadow-sm h-100 border-0">
+        <div class="card h-100">
             <div class="card-body">
-                <h5 class="card-title">{{ roadmap.skill }}</h5>
+                <h5 class="card-title mb-1">{{ roadmap.skill }}</h5>
                 <p class="text-muted small mb-3">{{ roadmap.goal }}</p>
                 <div class="d-flex justify-content-between align-items-center">
                     <div>
-                        <span class="badge bg-primary">Level: {{ roadmap.level }}</span>
-                        <span class="badge bg-secondary ms-2">{{ roadmap.time_per_day }}/day</span>
+                        <span class="badge bg-primary">{{ roadmap.level }}</span>
+                        <span class="badge text-bg-light ms-1">{{ roadmap.time_per_day }}/day</span>
                     </div>
-                    <a href="{{ url_for('learning.view_roadmap', roadmap_id=roadmap.id) }}"
-                        class="btn btn-outline-primary btn-sm">Open</a>
+                    <a href="{{ url_for('learning.view_roadmap', roadmap_id=roadmap.id) }}" class="btn btn-outline-primary btn-sm">Open</a>
                 </div>
             </div>
-            <div class="card-footer small text-muted">Created {{ roadmap.created_at.strftime('%Y-%m-%d') }}</div>
+            <div class="card-footer bg-transparent border-0 small text-muted">Created {{ roadmap.created_at.strftime('%Y-%m-%d') }}</div>
         </div>
     </div>
     {% endfor %}
 </div>
 {% else %}
-<div class="card text-center py-5">
+<div class="card hero-card text-center py-5">
     <div class="card-body">
         <h5 class="card-title">No learning paths yet</h5>
         <p class="card-text text-muted">Create a personalized path and start learning consistently.</p>
