@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!-- Variant: flat mark - single-color rounded book + arrow -->
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64" aria-hidden="true">
-  <g fill="none" fill-rule="evenodd">
-    <path d="M8 34c8-5 16-7 24-7s16 2 24 7v8c-8-5-16-7-24-7S16 37 8 42v-8z" fill="#3b82f6"/>
-    <path d="M32 18v12" stroke="#fff" stroke-width="3" stroke-linecap="round"/>
-    <path d="M28 22l4-4 4 4" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
-  </g>
-</svg>
